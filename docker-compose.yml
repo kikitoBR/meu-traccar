@@ -5,11 +5,11 @@ services:
     container_name: traccar
     restart: unless-stopped
     ports:
-      - "8082:8082"   # Interface Web
-      - "5055:5055"   # Porta padrão para os rastreadores (GPS)
+      - "8082:8082"
+      - "5055:5055"
     volumes:
-      - ./traccar.xml:/opt/traccar/conf/traccar.xml:ro
       - traccar-logs:/opt/traccar/logs
+      - traccar-conf:/opt/traccar/conf
     depends_on:
       - mysql
 
@@ -27,4 +27,5 @@ services:
 
 volumes:
   traccar-logs:
+  traccar-conf:
   mysql-data:
