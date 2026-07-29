@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  traccar:
+    image: traccar/traccar:latest
+    container_name: traccar
+    restart: unless-stopped
+    ports:
+      - "8082:8082"   # Interface Web
+      - "5055:5055"   # Porta padrão para os rastreadores (GPS)
+    volumes:
+      - ./traccar.xml:/opt/traccar/conf/traccar.xml:ro
+      - traccar-logs:/opt/traccar/logs
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    container_name: traccar-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: umasenhastrongaqui
+      MYSQL_DATABASE: traccar
+      MYSQL_USER: traccar
+      MYSQL_PASSWORD: senhadobanco
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  traccar-logs:
+  mysql-data:
